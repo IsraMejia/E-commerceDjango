@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-s*9rnt)_v-+-bqn9s69%)%@4)*#qz!8@7r7m@w(jj-v$_q1=-j'
+SECRET_KEY = 'django-insecure-_joon&2n_*l6u(hf(xf3wnx3)=f-ig07!szubn-quq^if^(^#s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -47,6 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'store', #Django App
 ]
 
 ROOT_URLCONF = 'ecommerce.urls'
