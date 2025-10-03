@@ -24,7 +24,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='images/')
     
     class Meta:
-        verbose_name_plural = 'products'
+        verbose_name_plural = 'products'  
         
     def __str__(self):
         return self.title #Show the title  instead of product(n)
