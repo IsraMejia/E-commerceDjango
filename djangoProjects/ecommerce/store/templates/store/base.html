@@ -83,17 +83,17 @@
                     
                     </a>
                     
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-
-                        <li>
-                            
-                            <a class="dropdown-item" href="{% url 'store' %}"> All </a>
-                        
-                        </li>
                     
-        
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+
+                        {% for category in all_categories%}
+                            <li>
+                            <a class="dropdown-item" href=""> {{category.name | capfirst}} </a>
+                            </li> 
+                        {% endfor %}
                     
                     </ul>
+                    
 
                 </li>
 
