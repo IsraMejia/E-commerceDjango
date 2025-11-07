@@ -1,12 +1,18 @@
 from django.shortcuts import render
-from . models import Category
+from . models import Category, Product
+from django.shortcuts import get_object_or_404
 
 def store(request):
-    return render(request , 'store/store.html')
+    all_products = Product.objects.all()
+    context = {'my_products': all_products}
+    return render(request , 'store/store.html' ,  context )
 
 def categories(request):
     all_categories = Category.objects.all()
     return {'all_categories': all_categories}
 
 
-     
+def product_info(request, slug):
+    product = get_object_or_404(Product, slug = slug) #trae los datos del producto que tiene el mismo slug en la base de datos
+    context = {'product': product} #Dictionary that defines how we can reach the object of the product, to the HTML
+    return render(request, 'store/product-info.html', context)
