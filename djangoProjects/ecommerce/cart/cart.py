@@ -14,10 +14,13 @@ class Cart():
     def add(self, product, product_quantity):
         product_id = str(product.id)
         
+        # Lógica para agregar o actualizar
         if product_id in self.cart:
-            self.cart[product_id]['product_quantity'] = product_quantity
+            self.cart[product_id]['qty'] = product_quantity 
         else:
+            # CORRECCIÓN: Asegúrate de guardar 'qty' consistentemente
             self.cart[product_id] = {'price': str(product.price), 'qty': product_quantity}
-            
-        self.session.modified = True 
+        
+        # Marcar la sesión como modificada para que Django la guarde
+        self.session.modified = True
         
