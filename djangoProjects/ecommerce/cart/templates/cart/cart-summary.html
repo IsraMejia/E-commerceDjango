@@ -54,7 +54,7 @@
 
                 &nbsp;
 
-                <select id="">
+                <select id="select{{product.id}}">
                   <option selected>{{item.qty}}</option>
 
                   <option value="">1</option>
@@ -72,6 +72,7 @@
                 <button
                   type="button"
                   id="update-button"
+                  data-index = "{{product.id}}"
                   class="btn btn-primary btn-sm update-button"
                 >
                   Update
@@ -127,6 +128,33 @@
             success: function(json){
                 //console.log(json);
                 location.reload(); //reload the page, in this way the deleted item isn't in the page
+                document.getElementById("cart-qty").textContent = json.qty
+                document.getElementById("total").textContent = json.total
+            },
+            error: function(xhr, errmsg, err){ 
+            } 
+        });
+    });
+
+
+  //Update Button
+    $(document).on('click', '.update-button', function(e){
+        e.preventDefault();
+
+        var theproductid = $(this).data('index')
+
+        $.ajax({
+            type: "POST",
+            url: '{% url "cart-update" %}',
+            data: {
+                product_id: $(this).data('index') ,  
+                product_quantity: $('#select' + theproductid + ' option:selected').text(),
+                csrfmiddlewaretoken: '{{csrf_token}}', 
+                action: 'post'
+            },
+            success: function(json){
+                //console.log(json);
+                location.reload(); //reload the page, in this way the update item isn't in the page
                 document.getElementById("cart-qty").textContent = json.qty
                 document.getElementById("total").textContent = json.total
             },
