@@ -72,6 +72,7 @@
 
 
 <script>
+  //Add button
     $(document).on('click', '#add-button', function(e){
         e.preventDefault();
 
@@ -79,16 +80,14 @@
             type: "POST",
             url: '{% url "cart-add" %}',
             data: {
-                product_id: $('#add-button').val(),
-                // CORRECCIÓN: Usamos .val() sobre el select directamente
-                product_quantity: $('#select').val(), 
+                product_id: $('#add-button').val(), 
+                product_quantity: $('#select option:selected').text(),  
                 csrfmiddlewaretoken: '{{csrf_token}}', 
                 action: 'post'
             },
             success: function(json){
-                console.log(json);
-                // Opcional: Alerta para confirmar visualmente
-               // alert("Producto agregado: " + json['qty']); 
+                //console.log(json);
+                document.getElementById("cart-qty").textContent = json.qty
             },
             error: function(xhr, errmsg, err){
                 console.log(errmsg);
