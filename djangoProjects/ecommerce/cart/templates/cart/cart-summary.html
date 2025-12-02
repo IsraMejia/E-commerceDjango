@@ -127,7 +127,7 @@
             },
             success: function(json){
                 //console.log(json);
-                location.reload(); //reload the page, in this way the deleted item isn't in the page
+                location.reload(true); //reload the page, in this way the deleted item isn't in the page
                 document.getElementById("cart-qty").textContent = json.qty
                 document.getElementById("total").textContent = json.total
             },
@@ -154,7 +154,7 @@
             },
             success: function(json){
                 //console.log(json);
-                location.reload(); //reload the page, in this way the update item isn't in the page
+                location.reload(true); //reload the page, in this way the update item isn't in the page
                 document.getElementById("cart-qty").textContent = json.qty
                 document.getElementById("total").textContent = json.total
             },
