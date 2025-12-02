@@ -126,11 +126,12 @@
             },
             success: function(json){
                 //console.log(json);
-                //document.getElementById("cart-qty").textContent = json.qty
+                location.reload(); //reload the page, in this way the deleted item isn't in the page
+                document.getElementById("cart-qty").textContent = json.qty
+                document.getElementById("total").textContent = json.total
             },
-            error: function(xhr, errmsg, err){
-                console.log(errmsg);
-            }
+            error: function(xhr, errmsg, err){ 
+            } 
         });
     });
 </script>
