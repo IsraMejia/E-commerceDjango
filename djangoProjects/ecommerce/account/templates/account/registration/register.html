@@ -1,0 +1,47 @@
+
+{% include "store/base.html" %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+    <body>
+        <br>
+        <div class="container bg-bg-whit shadow-md p-5">
+
+            <h3> Create your account</h3>
+            <h5> Pourchase yourr favourite items toda </h5>
+
+            <br>
+            <br>
+
+            <form method="POST" autocomplete ="off">
+
+                {% csrf_token %}
+        
+                {{form.username|as_crispy_field}}
+                <br> <br>
+
+                {{form.email|as_crispy_field}}
+                <br> <br>
+
+                {{form.password1|as_crispy_field}}
+                <br> <br>
+
+                {{form.password2|as_crispy_field}}
+                <br> <br>
+
+                <br> <br>
+                <button 
+                    type="sbmit" 
+                    class="btn btn-secondary btn-lg w-100 btn-block p-2"> 
+                    &nbsp;
+                    Create account 
+                </button>
+
+        </div>
+                
+             
+
+    </body>
+
+{% endblock %}

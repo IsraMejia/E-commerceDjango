@@ -39,8 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mathfilters', 
     'store', #Django App
-    'cart'   #Django App fro de store cart
+    'cart',   #Django App fro de store cart
+    'account',
+    'crispy_forms', #Easy way to do forms 
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

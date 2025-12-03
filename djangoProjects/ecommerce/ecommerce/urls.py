@@ -9,7 +9,9 @@ urlpatterns = [
     
     path('', include('store.urls')) ,   #store urls
     
-    path('cart/', include('cart.urls')) #cart urls
+    path('cart/', include('cart.urls')), #cart urls
+    
+    path('account/', include('account.urls')), #Account app urls
 ]
 
 
