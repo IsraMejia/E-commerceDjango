@@ -1,0 +1,27 @@
+# --- Python y Django ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --- Base de datos local (NO subir la BD real) ---
+db.sqlite3
+
+# --- Entornos Virtuales ---
+# Vi que tu entorno se llama 'ecom'
+ecom/
+venv/
+env/
+
+# --- Variables de Entorno y Secretos (¡VITAL!) ---
+.env
+.env.local
+
+# --- Archivos de Medios (Imágenes subidas por usuarios) ---
+# La carpeta media no se sube, solo la estructura
+media/
+
+# --- IDEs y Sistema Operativo ---
+.vscode/
+.idea/
+.DS_Store

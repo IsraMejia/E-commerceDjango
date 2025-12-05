@@ -1,10 +1,74 @@
-
 {% autoescape off %}
-Hi,
-Thank your for register on our website.
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify your email</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
 
-Please be so kind as to verify your email by clicking the link below: 
+    <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td style="padding: 20px 0 30px 0;" align="center">
+                
+                <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; border: 1px solid #cccccc; background-color: #ffffff; max-width: 600px;">
+                    
+                    <tr>
+                        <td align="center" style="background-color: #343a40; padding: 30px 0;">
+                            <h1 style="color: #ffffff; font-size: 24px; margin: 0;">Dinamita Studios</h1>
+                        </td>
+                    </tr>
 
-http://{{domain}}{% url 'email-verification' uidb64=uid token=token %}
+                    <tr>
+                        <td style="padding: 40px 30px 40px 30px; color: #153643;">
+                            <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 24px;">
+                                <strong>Hi there!</strong>
+                            </p>
+                            <p style="margin: 0 0 20px 0; font-size: 16px; line-height: 24px;">
+                                Thank you for registering on our website. We are excited to have you on board!
+                            </p>
+                            <p style="margin: 0 0 30px 0; font-size: 16px; line-height: 24px;">
+                                Please verify your email address to activate your account by clicking the button below:
+                            </p>
+                            
+                            <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                         
+                                        
+                                        <a href="http://{{domain}}{% url 'email-verification' uidb64=uid token=token %}" style="background-color: #0d6efd; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block; font-size: 16px;">
+                                            Verify Email
+                                        </a>
 
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 30px 0 0 0; font-size: 12px; color: #777777; line-height: 18px;">
+                                If the button above doesn't work, copy and paste the following link into your browser:<br>
+                                <a href="http://{{domain}}{% url 'email-verification' uidb64=uid token=token %}" style="color: #0d6efd;">
+                                    http://{{domain}}{% url 'email-verification' uidb64=uid token=token %}
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 30px; background-color: #ee4c50;">
+                            <p style="margin: 0; font-size: 14px; color: #ffffff; text-align: center;">
+                                &copy; 2025 Dinamita Studios<br/>
+                                <small>Please do not reply to this email.</small>
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
 {% endautoescape %}
