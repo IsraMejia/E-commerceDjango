@@ -25,17 +25,31 @@
                 {% csrf_token %}
         
                 {{form.username|as_crispy_field}}
-                <br> <br> 
+                <br>  
 
                 {{form.password|as_crispy_field}}
-                <br> <br>
+                <br>  
   
                 <button 
                     type="sbmit" 
-                    class="btn btn-secondary btn-lg w-100 btn-block p-2"> 
+                    class="btn btn-primary navbar-btn text-white w-100 p-2"> 
                     &nbsp;
                     Login
                 </button>
+
+                <br>  <br>  
+
+                <a href="{% url 'register' %}">
+                    <div class="text-center"> 
+                    Dont have an account ? 
+                    </div>
+                </a>
+                <br>  
+                <a href="{% url 'reset_password' %}">
+                    <div class="text-center"> 
+                    Forgotten your password ? 
+                    </div>
+                </a>
 
         </div>
         <br><br>

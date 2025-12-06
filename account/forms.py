@@ -43,13 +43,27 @@ class UpdateUserForm(forms.ModelForm):
     
     password = None
     
+    class Meta:
+        model = User
+        fields = ['username', 'email']
+        exclude =['password1', 'password2']
+    
     def __init__(self, *args, **kwargs):
         super(UpdateUserForm, self).__init__( *args, **kwargs)
         
         self.fields['email'].required = True 
     
-    class Meta:
-        model = User
-        fields = ['username', 'email']
-        exclude =['password1', 'password2']
+    
+    # Email Validation
+    def clean_email(self):
+        email =  self.cleaned_data.get('email') 
+        
+        if User.objects.filter(email = email).exclude(pk=self.instance.pk).exist() :
+            raise forms.ValidationError('This email is invalid') #Only pass own email or diferent email of the others users
+        
+        if len(email) >= 350:
+            raise forms.ValidationError('Your email is too long')
+        
+        return email
+    
         

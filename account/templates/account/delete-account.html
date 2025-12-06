@@ -19,22 +19,29 @@
             
             <hr> 
             <br>
+                <p> Are you sure that you want to delete your account?</p>
+            <br>
+            <br>
 
             <form method="POST" autocomplete ="off">
 
-                {% csrf_token %}
-        
-                 
-                <br>
-                <p> Are you sure that you want to delete your account?</p>
-                <br>
+                {% csrf_token %} 
   
                 <button 
                     type="sbmit" 
-                    class="btn btn-danger btn-lg w-100 btn-block p-2"> 
+                    class="btn btn-danger navbar-btn text-white"> 
                     &nbsp;
                     Delete Account 
                 </button>
+
+
+                <br>
+                <br>
+                <a class="btn btn-success navbar-btn text-white" 
+                type="button" 
+                href="{% url 'profile-management' %}">
+                Go back
+                </a>
 
         </div>
         <br><br>
