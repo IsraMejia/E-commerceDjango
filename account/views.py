@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import auth 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 
@@ -98,7 +99,17 @@ def my_login(request):
 
 
 def user_logout(request):
-    auth.logout(request)
+    
+    try :
+        for key in list(request.session.keys()):
+            if key == 'session_key':
+                continue
+            else:
+                del request.session[key]
+    except KeyError:
+            pass   
+    
+    messages.success(request, "Logout success")
     return redirect('store')
 
 
@@ -129,6 +140,8 @@ def delete_account(request):
     user = User.objects.get(id = request.user.id)
     if request.method == 'POST':
         user.delete()
+        messages.error(request, "Account deleted")
         return redirect('store')
+    
     
     return render(request, 'account/delete-account.html')

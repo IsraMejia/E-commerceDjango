@@ -1,57 +1,64 @@
-{% include "store/base.html" %}
+{% extends "store/base.html" %}
 {% load static %}
+
 {% block content %}
-{% load crispy_forms_tags %}
 
-<body>
+<div class="container py-5">
+    
+    <div class="p-5 mb-5 bg-dark rounded-3 shadow-lg border border-secondary text-center">
+        <div class="container-fluid py-2">
+            <h1 class="display-5 fw-bold text-white">
+                Bienvenido, <span class="text-primary">{{ user }}</span>! 👋
+            </h1>
+            <p class="col-md-8 fs-4 mx-auto text-muted">
+                Este es tu panel de control personal.
+            </p>
+        </div>
+    </div>
 
-    <style >
-        body{
-            background-color: gray
-        }
-    </style>
-
-    <br><br>
-    <div class="container bg-dark shadow-md p-5 form-layout" >
-
-        <h2> Bienvenido {{user}} 😄 !</h2> 
+    <div class="row align-items-md-stretch">
         
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 bg-dark text-white shadow-lg border-info">
+                <div class="card-body text-center p-5">
+                    
+                    <i class="fa fa-truck fa-4x text-info mb-4" aria-hidden="true"></i>
+                    
+                    <h2 class="card-title">Track your orders</h2>
+                    <p class="card-text text-muted mb-4">
+                        Revisa el estado y el historial de todas tus compras recientes aquí.
+                    </p>
+                    
+                    <a class="btn btn-outline-info btn-lg px-4" 
+                       type="button" 
+                       href="{% url 'user-logout' %}">
+                       <i class="fa fa-list-alt me-2"></i> My orders
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 bg-dark text-white shadow-lg border-primary">
+                <div class="card-body text-center p-5">
+                    
+                    <i class="fa fa-id-card-o fa-4x text-primary mb-4" aria-hidden="true"></i>
+                    
+                    <h2 class="card-title">Manage your account</h2>
+                    <p class="card-text text-muted mb-4">
+                        Actualiza tu información personal o gestiona la configuración de tu cuenta.
+                    </p>
+                    
+                    <a class="btn btn-outline-primary btn-lg px-4" 
+                       type="button" 
+                       href="{% url 'profile-management' %}">
+                       <i class="fa fa-cog me-2"></i> Profile Management
+                    </a>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <br> <br>
-    <div class="container bg-dark shadow-md p-5 form-layout" >
-        <h4>  Track your orders </h4>
-        <hr>
-        <p> Track all your orders here </p>
-        <br>
-        <a class="btn btn-primary navbar-btn text-white" 
-            type="button" 
-            href="{% url 'user-logout' %}">
-            My orders
-        </a>
-    </div>
-
-    <br> <br>
-    <div class="container bg-dark shadow-md p-5 form-layout" >
-        
-        <h4>  Manage your account </h4>
-        <hr>
-        <p> Update or delete your account  </p>
-        <br>
-        <a class="btn btn-primary navbar-btn text-white" 
-            type="button" 
-            href="{% url 'profile-management' %}">
-            Profile Managment
-        </a>
-
-
-         
-    </div>
-
-    <br> <br><br> <br>
- 
-
-
-</body>
+</div>
 
 {% endblock %}
