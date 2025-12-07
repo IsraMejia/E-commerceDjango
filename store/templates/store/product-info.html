@@ -1,78 +1,96 @@
-{% extends "./base.html" %} {% load static %} {% block content %}
+{% extends "./base.html" %} 
+{% load static %} 
 
-<div class="container">
-  <main class="pt-5">
-    <div class="row g-3">
-      <div class="col-md-5 col-lg-5 order-md-first bg-light **h-100**">
-        <img class="img-fluid mx-auto d-block **img-fill**" 
-             alt="Responsive image" 
-             src="{{ product.image.url}}" />
+{% block content %}
+
+<div class="container mt-5 mb-5">
+    <div class="row g-4">
+        
+        <div class="col-md-6 col-lg-7">
+            <div class="card bg-white shadow-lg border-0 rounded-4 overflow-hidden d-flex align-items-center justify-content-center position-relative" 
+                 style="height: 60vh; min-height: 400px;">
+                
+                <img class="img-fluid" 
+                     alt="{{ product.title }}" 
+                     src="{{ product.image.url }}" 
+                     style="max-height: 90%; max-width: 90%; object-fit: contain;" />
+                
+                <span class="position-absolute top-0 start-0 m-3 badge bg-primary fs-6">
+                    {{ product.brand }}
+                </span>
+            </div>
         </div>
 
-      <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
-        <h1 class="mb-0 h4"> {{product.title}} </h1>
+        <div class="col-md-6 col-lg-5">
+            <div class="p-3">
+                
+                <h1 class="display-6 fw-bold text-white mb-2">{{ product.title }}</h1>
+                <p class="text-muted mb-4"><i class="fa fa-tag me-1"></i> {{ product.brand }}</p>
 
-        <strong> {{product.brand}} </strong>
+                <div class="mb-4">
+                    <p class="lead text-light" style="font-size: 1.1rem; line-height: 1.6;">
+                        {{ product.description }}
+                    </p>
+                </div>
 
-        <hr />
+                <hr class="border-secondary my-4">
 
-        <br />
+                <div class="card bg-dark border-primary shadow-sm">
+                    <div class="card-body">
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div>
+                                <small class="text-muted">Total Price</small>
+                                <h2 class="text-success fw-bold m-0">$ {{ product.price }}</h2>
+                            </div>
+                            
+                            <div class="text-warning">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-half-o"></i>
+                            </div>
+                        </div>
 
-        <p> {{product.description}} </p>
- 
-        <div class="border">
-          <div class="col border-bottom">
-            <div class="row p-3">
-              <div class="col-6">Price</div>
+                        <div class="row g-2 align-items-end">
+                            <div class="col-4">
+                                <label for="select" class="form-label text-white small">Quantity</label>
+                                <select id="select" class="form-select form-select-sm bg-secondary text-white border-secondary">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                            </div>
 
-              <div class="col-6 text-end">
-                <span class="h4 fw-bold" >$ {{product.price}} </span>
-              </div>
+                            <div class="col-8">
+                                <button type="button" 
+                                        id="add-button" 
+                                        value="{{product.id}}" 
+                                        class="btn btn-primary w-100 btn-lg shadow-sm">
+                                    <i class="fa fa-cart-plus me-2"></i> Add to Cart
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div class="mt-4 text-center">
+                    <small class="text-muted">
+                        <i class="fa fa-lock me-1"></i> Secure transaction
+                    </small>
+                </div>
+
             </div>
-          </div>
-
-          <div class="col">
-            <div class="row p-3">
-              <div class="col-6">
-                <label for="select">Qty</label>
-
-                &nbsp;
-
-                <select id="select">
-                  <option value="1">1</option>
-
-                  <option value="2">2</option>
-
-                  <option value="3">3</option>
-
-                  <option value="4">4</option>
-                </select>
-              </div>
-
-              <div class="col-6 text-end">
-                <button
-                  type="button"
-                  id="add-button"
-                  value="{{product.id}}"
-                  class="btn btn-secondary btn-sm"
-                >
-                  Add to cart
-                </button>
-              </div>
-              
-            </div>
-          </div>
         </div>
-      </div>
+
     </div>
-  </main>
-
-  <br />
 </div>
 
-
 <script>
-  //Add button
+  // Add button Logic
     $(document).on('click', '#add-button', function(e){
         e.preventDefault();
 
@@ -80,14 +98,23 @@
             type: "POST",
             url: '{% url "cart-add" %}',
             data: {
-                product_id: $('#add-button').val(), 
-                product_quantity: $('#select option:selected').text(),  
+                product_id: $('#add-button').val(),
+                // Usamos .val() que es más seguro para obtener el valor numérico
+                product_quantity: $('#select').val(), 
                 csrfmiddlewaretoken: '{{csrf_token}}', 
                 action: 'post'
             },
             success: function(json){
-                //console.log(json);
-                document.getElementById("cart-qty").textContent = json.qty
+                // Actualizamos el badge del carrito en el navbar
+                document.getElementById("cart-qty").textContent = json.qty;
+                
+                // Opcional: Cambiar texto del botón temporalmente para dar feedback visual
+                var btn = $('#add-button');
+                var originalText = btn.html();
+                btn.html('<i class="fa fa-check"></i> Added!').removeClass('btn-primary').addClass('btn-success');
+                setTimeout(function(){
+                    btn.html(originalText).addClass('btn-primary').removeClass('btn-success');
+                }, 2000);
             },
             error: function(xhr, errmsg, err){
                 console.log(errmsg);
