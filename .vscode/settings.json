@@ -1,18 +1,18 @@
 {
     "workbench.colorCustomizations": {
-        "activityBar.background": "#0B2004",
+        "activityBar.background": "#190000",
         "activityBar.foreground": "#F3FDF0",
         "titleBar.activeBackground": "#0B2004",
         "titleBar.activeForeground": "#F3FDF0",
         "titleBar.inactiveBackground": "#051002",
         "titleBar.inactiveForeground": "#F3FDF0",
-        "tab.inactiveBackground": "#0B2004",
-        "tab.activeBackground": "#103006",
-        "tab.hoverBackground": "#103006",
-        "tab.unfocusedHoverBackground": "#103006",
-        "editorGroupHeader.tabsBackground": "#0B2004",
-        "titleBar.border": "#0B2004",
-        "sideBarTitle.background": "#0B2004",
-        "statusBar.background": "#0B2004"
+        "tab.inactiveBackground": "#190000",
+        "tab.activeBackground": "#260000",
+        "tab.hoverBackground": "#260000",
+        "tab.unfocusedHoverBackground": "#260000",
+        "editorGroupHeader.tabsBackground": "#190000",
+        "titleBar.border": "#190000",
+        "sideBarTitle.background": "#190000",
+        "statusBar.background": "#190000"
     }
 }

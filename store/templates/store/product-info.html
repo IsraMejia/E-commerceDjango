@@ -1,34 +1,31 @@
-{% extends "./base.html" %} 
-{% load static %} 
+{% extends "./base.html" %}
+{% load static %}
 
 {% block content %}
 
 <div class="container mt-5 mb-5">
     <div class="row g-4">
-        
         <div class="col-md-6 col-lg-7">
-            <div class="card bg-white shadow-lg border-0 rounded-4 overflow-hidden d-flex align-items-center justify-content-center position-relative" 
-                 style="height: 60vh; min-height: 400px;">
+            <div class="card bg-black shadow-lg border-secondary rounded-4 overflow-hidden d-flex align-items-center justify-content-center position-relative" style="height: 60vh; min-height: 400px;">
+                <img class="img-fluid" alt="{{ product.title }}" src="{{ product.image.url }}" style="max-height: 90%; max-width: 90%; object-fit: contain;" />
                 
-                <img class="img-fluid" 
-                     alt="{{ product.title }}" 
-                     src="{{ product.image.url }}" 
-                     style="max-height: 90%; max-width: 90%; object-fit: contain;" />
-                
-                <span class="position-absolute top-0 start-0 m-3 badge bg-primary fs-6">
-                    {{ product.brand }}
+                <span class="position-absolute top-0 start-0 m-3 badge bg-danger fs-6 shadow">
+                    <i class="fa fa-gamepad me-1"></i> {{ product.brand }}
                 </span>
             </div>
         </div>
 
         <div class="col-md-6 col-lg-5">
             <div class="p-3">
-                
                 <h1 class="display-6 fw-bold text-white mb-2">{{ product.title }}</h1>
-                <p class="text-muted mb-4"><i class="fa fa-tag me-1"></i> {{ product.brand }}</p>
+                
+                <p class="text-info mb-4">
+                    <i class="fa fa-folder-open me-1"></i> Categoría: {{ product.category.name }}
+                </p>
 
                 <div class="mb-4">
-                    <p class="lead text-light" style="font-size: 1.1rem; line-height: 1.6;">
+                    <h5 class="text-white border-bottom border-secondary pb-2">Sinopsis</h5>
+                    <p class="lead text-light" style="font-size: 1rem; line-height: 1.6; text-align: justify;">
                         {{ product.description }}
                     </p>
                 </div>
@@ -40,10 +37,9 @@
                         
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
-                                <small class="text-muted">Total Price</small>
+                                <small class="text-muted">Precio Digital</small>
                                 <h2 class="text-success fw-bold m-0">$ {{ product.price }}</h2>
                             </div>
-                            
                             <div class="text-warning">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -55,7 +51,7 @@
 
                         <div class="row g-2 align-items-end">
                             <div class="col-4">
-                                <label for="select" class="form-label text-white small">Quantity</label>
+                                <label for="select" class="form-label text-white small">Copias</label>
                                 <select id="select" class="form-select form-select-sm bg-secondary text-white border-secondary">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
@@ -63,55 +59,47 @@
                                     <option value="4">4</option>
                                 </select>
                             </div>
-
                             <div class="col-8">
-                                <button type="button" 
-                                        id="add-button" 
-                                        value="{{product.id}}" 
-                                        class="btn btn-primary w-100 btn-lg shadow-sm">
-                                    <i class="fa fa-cart-plus me-2"></i> Add to Cart
+                                <button type="button" id="add-button" value="{{product.id}}" class="btn btn-primary w-100 btn-lg shadow-sm">
+                                    <i class="fa fa-cart-plus me-2"></i> Agregar
                                 </button>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                
+
                 <div class="mt-4 text-center">
                     <small class="text-muted">
-                        <i class="fa fa-lock me-1"></i> Secure transaction
+                        <i class="fa fa-lock me-1"></i> Entrega Digital Inmediata / Envío Físico Seguro
                     </small>
                 </div>
 
             </div>
         </div>
-
     </div>
 </div>
 
 <script>
-  // Add button Logic
+    // Lógica AJAX para agregar al carrito (Sin cambios, funciona perfecto)
     $(document).on('click', '#add-button', function(e){
         e.preventDefault();
-
         $.ajax({
             type: "POST",
             url: '{% url "cart-add" %}',
             data: {
                 product_id: $('#add-button').val(),
-                // Usamos .val() que es más seguro para obtener el valor numérico
-                product_quantity: $('#select').val(), 
-                csrfmiddlewaretoken: '{{csrf_token}}', 
+                product_quantity: $('#select').val(),
+                csrfmiddlewaretoken: '{{csrf_token}}',
                 action: 'post'
             },
             success: function(json){
-                // Actualizamos el badge del carrito en el navbar
                 document.getElementById("cart-qty").textContent = json.qty;
                 
-                // Opcional: Cambiar texto del botón temporalmente para dar feedback visual
+                // Feedback visual botón
                 var btn = $('#add-button');
                 var originalText = btn.html();
-                btn.html('<i class="fa fa-check"></i> Added!').removeClass('btn-primary').addClass('btn-success');
+                btn.html('<i class="fa fa-check"></i> ¡Listo!').removeClass('btn-primary').addClass('btn-success');
                 setTimeout(function(){
                     btn.html(originalText).addClass('btn-primary').removeClass('btn-success');
                 }, 2000);
