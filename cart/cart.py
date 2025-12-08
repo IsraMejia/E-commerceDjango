@@ -43,6 +43,11 @@ class Cart():
             self.cart[product_id]['qty'] = product_quantity #Update the qty
         
         self.session.modified = True 
+    
+    def clear(self):
+        # Eliminar la sesión del carrito
+        del self.session['session_key']
+        self.session.modified = True
         
          
             

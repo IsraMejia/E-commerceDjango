@@ -1,0 +1,174 @@
+{% extends "store/base.html" %}
+{% load static %}
+{% load mathfilters %}
+
+{% block content %}
+
+<div class="bg-danger text-white text-center p-3 fw-bold sticky-top" style="z-index: 1050; border-bottom: 4px solid #8B0000;">
+    <i class="fa fa-exclamation-triangle me-2"></i>
+    ESTA ES UNA PÁGINA WEB DE PRUEBAS. NINGUNA COMPRA SERÁ EFECTUADA O VÁLIDA EN EL MUNDO REAL. 
+    NO INGRESES DATOS BANCARIOS REALES. LOS JUEGOS Y/O SUSCRIPCIONES NO SON REALES.
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        
+        <div class="col-lg-7">
+            <div class="card bg-dark border-secondary shadow-lg mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fa fa-credit-card me-2"></i> Pago Seguro (Simulado)</h4>
+                </div>
+                <div class="card-body">
+                    <form id="payment-form">
+                        {% csrf_token %}
+                        
+                        <h5 class="text-light mb-3">Información de Contacto</h5>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">Nombre Completo</label>
+                                <input type="text" class="form-control bg-secondary text-white border-0" id="custName" placeholder="Tu Nombre" required value="{{user.first_name}} {{user.last_name}}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">Email para el código</label>
+                                <input type="email" class="form-control bg-secondary text-white border-0" id="custEmail" placeholder="correo@ejemplo.com" required value="{{user.email}}">
+                            </div>
+                        </div>
+
+                        <hr class="border-secondary my-4">
+
+                        <h5 class="text-light mb-3">Tarjeta de Crédito / Débito</h5>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted">Número de Tarjeta (Falso)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-secondary border-0 text-white"><i class="fa fa-lock"></i></span>
+                                <input type="text" class="form-control bg-secondary text-white border-0" id="cardNumber" placeholder="0000 0000 0000 0000" maxlength="19" required>
+                            </div>
+                            <div class="form-text text-info"><i class="fa fa-info-circle"></i> Usa cualquier número de 16 dígitos.</div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">Vencimiento (MM/YY)</label>
+                                <input type="text" class="form-control bg-secondary text-white border-0" placeholder="12/28" maxlength="5" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted">CVV</label>
+                                <input type="password" class="form-control bg-secondary text-white border-0" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 btn-lg fw-bold shadow-sm">
+                            Pagar ${{cart.get_total}} y Obtener Código
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card bg-black border-secondary shadow">
+                <div class="card-header bg-transparent border-secondary text-white fw-bold">
+                    Resumen del Pedido
+                </div>
+                <div class="card-body">
+                    {% for item in cart %}
+                    {% with product=item.product %}
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <img src="{{product.image.url}}" class="rounded me-2" style="width: 50px; height: 30px; object-fit: cover;">
+                            <div>
+                                <h6 class="my-0 text-white small">{{product.title}}</h6>
+                                <small class="text-muted">x {{item.qty}}</small>
+                            </div>
+                        </div>
+                        <span class="text-success">${{product.price|mul:item.qty}}</span>
+                    </div>
+                    {% endwith %}
+                    {% endfor %}
+                    
+                    <hr class="border-secondary">
+                    <div class="d-flex justify-content-between">
+                        <span class="h5 text-white">Total</span>
+                        <span class="h4 text-success fw-bold">${{cart.get_total}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="loadingOverlay" class="position-fixed top-0 start-0 w-100 h-100 bg-black d-none flex-column justify-content-center align-items-center" style="z-index: 2000; opacity: 0.9;">
+    
+    <div id="spinner" class="spinner-border text-primary" style="width: 4rem; height: 4rem;" role="status">
+        <span class="visually-hidden">Procesando...</span>
+    </div>
+
+    <div id="successCheck" class="d-none text-center">
+        <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+        </svg>
+        <h3 class="text-success mt-3 fw-bold">¡Pago Aprobado!</h3>
+        <p class="text-white">Generando códigos...</p>
+    </div>
+
+    <h4 id="loadingText" class="text-white mt-3">Validando tarjeta simulada...</h4>
+</div>
+
+<style>
+    /* Animación del Checkmark */
+    .checkmark { width: 80px; height: 80px; border-radius: 50%; display: block; stroke-width: 2; stroke: #198754; stroke-miterlimit: 10; margin: 10% auto; box-shadow: inset 0px 0px 0px #198754; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
+    .checkmark__circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 2; stroke-miterlimit: 10; stroke: #198754; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+    .checkmark__check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+    @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+</style>
+
+<script>
+    // Formatear input de tarjeta con espacios
+    document.getElementById('cardNumber').addEventListener('input', function (e) {
+        e.target.value = e.target.value.replace(/[^\d]/g, '').replace(/(.{4})/g, '$1 ').trim();
+    });
+
+    // Manejar el envío del formulario
+    $(document).on('submit', '#payment-form', function(e){
+        e.preventDefault();
+
+        // 1. Mostrar Overlay
+        $('#loadingOverlay').removeClass('d-none').addClass('d-flex');
+
+        // Simular tiempo de "conexión con banco" (2 segundos)
+        setTimeout(function(){
+            
+            // 2. Enviar datos al backend para procesar orden
+            $.ajax({
+                type: "POST",
+                url: '{% url "complete-order" %}',
+                data: {
+                    name: $('#custName').val(),
+                    email: $('#custEmail').val(),
+                    csrfmiddlewaretoken: '{{csrf_token}}',
+                    action: 'post'
+                },
+                success: function(json){
+                    // 3. Ocultar Spinner y Mostrar Checkmark
+                    $('#spinner').addClass('d-none');
+                    $('#loadingText').addClass('d-none');
+                    $('#successCheck').removeClass('d-none');
+
+                    // 4. Esperar 1.5 seg para que vean el check y redirigir
+                    setTimeout(function(){
+                        window.location.href = "{% url 'payment-success' %}?code=" + json.game_code;
+                    }, 1500);
+                },
+                error: function(xhr, errmsg, err){
+                    alert("Error en la simulación. Intenta de nuevo.");
+                    $('#loadingOverlay').addClass('d-none').removeClass('d-flex');
+                }
+            });
+
+        }, 2000); 
+    });
+</script>
+
+{% endblock %}

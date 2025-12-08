@@ -1,1 +1,46 @@
-<h1> payment success </h1>
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="bg-danger text-white text-center p-2 fw-bold small">
+    ESTO ES UNA SIMULACIÓN. EL CÓDIGO A CONTINUACIÓN NO ES REAL.
+</div>
+
+<div class="container py-5 text-center">
+    
+    <div class="p-5 bg-dark border border-success rounded-3 shadow-lg">
+        
+        <i class="fa fa-check-circle text-success" style="font-size: 80px;"></i>
+        
+        <h1 class="display-5 fw-bold text-white mt-4">¡Compra "Realizada"!</h1>
+        <p class="lead text-muted">Gracias por probar Dinamita Studios.</p>
+        
+        <hr class="border-secondary my-4 w-50 mx-auto">
+        
+        <h4 class="text-white mb-3">Tu Código de Canje Digital:</h4>
+        
+        <div class="bg-black border border-primary p-3 d-inline-block rounded position-relative">
+            <h2 class="font-monospace text-primary mb-0" id="gameCode">{{ game_code }}</h2>
+        </div>
+        
+        <p class="mt-4 text-info">
+            <i class="fa fa-envelope me-1"></i> 
+            Hemos enviado un correo de confirmación (falso) a tu bandeja de entrada.
+            <br>
+            <small class="text-muted">(Revisa Spam si no lo ves, es un entorno de desarrollo)</small>
+        </p>
+
+        <div class="mt-5">
+            <a href="{% url 'store' %}" class="btn btn-outline-light px-4">
+                <i class="fa fa-home me-2"></i> Volver a la Tienda
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary px-4 ms-2">
+                <i class="fa fa-user me-2"></i> Ir a mi Dashboard
+            </a>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

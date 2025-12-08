@@ -1,169 +1,204 @@
-{% include "store/base.html" %} 
+{% include "store/base.html" %}
 {% load static %}
-{% load mathfilters %} 
+{% load mathfilters %}
+
 {% block content %}
 
-
-<main class="pt-5">
-  <div class="container">
-    <h1 class="h5">Shopping carts</h1>
-
-    <hr />
-
-      {% for item in cart %}
-      {% with product=item.product%}
-
-
-    <br />
-
-    <div class="row mb-4 border product-item">
-      <div class="col-md-3 col-lg-2 order-md-first bg-light">
-        <img
-          class="img-fluid mx-auto d-block"
-          width="200px"
-          alt="Responsive image"
-          src="{{product.image.url}}"
-        />
-        <!-- Product image -->
-      </div>
-
-      <div class="col-md-9 col-lg-10 ps-md-3 ps-lg-10">
-        <a href="{{product.get_absolute_url}}" class="text-decoration-none ">
-          <!-- Product get absolute url -->
-
-          <h1 class="h5 pt-2"> {{product.title}} </h1>
-        </a>
-
-        <div class="border">
-          <div class="col border-bottom">
-            <div class="row p-3">
-              <div class="col-6">Product</div>
-
-              <div class="col-6 text-end">
-                <span class="h6 fw-bold"
-                  >$ {{product.price|mul:item.qty}}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div class="col">
-            <div class="row p-3">
-              <div class="col-12">
-                <label for="select">Qty</label>
-
-                &nbsp;
-
-                <select id="select{{product.id}}">
-                  <option selected>{{item.qty}}</option>
-
-                  <option value="">1</option>
-
-                  <option value="">2</option>
-
-                  <option value="">3</option>
-
-                  <option value="">4</option>
-                </select>
-
-                <br />
-                <br />
-
-                <button
-                  type="button"
-                  id="update-button"
-                  data-index = "{{product.id}}"
-                  class="btn btn-primary btn-sm update-button"
-                >
-                  Update
-                </button>
-
-                &nbsp;
-
-                <button
-                  type="button" 
-                  data-index = "{{product.id}}"
-                  class="btn btn-danger btn-sm delete-button"
-                >
-                  Delete
-                </button>
-
-
-              </div>
-            </div>
-          </div>
+<main class="pt-5 pb-5">
+    <div class="container">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h3 text-white fw-bold">
+                <i class="fa fa-shopping-cart text-primary me-2"></i> Tu Botín (Carrito)
+            </h1>
+            <a href="{% url 'store' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="fa fa-arrow-left"></i> Seguir comprando
+            </a>
         </div>
-      </div>
+
+        <hr class="border-secondary mb-4" />
+
+        {% if cart|length == 0 %}
+            <div class="text-center py-5">
+                <i class="fa fa-gamepad fa-4x text-muted mb-3"></i>
+                <h3 class="text-muted">Tu inventario está vacío</h3>
+                <p class="text-muted">¡Ve a la tienda y equipa algunos juegos!</p>
+            </div>
+        {% else %}
+
+            <div class="row">
+                <div class="col-lg-9">
+                    {% for item in cart %}
+                    {% with product=item.product %}
+                    
+                    <div class="card mb-4 bg-dark border-secondary shadow-sm product-card">
+                        <div class="row g-0">
+                            
+                            <div class="col-md-4 position-relative">
+                                <a href="{{product.get_absolute_url}}">
+                                    <img src="{{product.image.url}}" 
+                                         class="img-fluid rounded-start h-100" 
+                                         alt="{{product.title}}"
+                                         style="object-fit: cover; min-height: 180px; width: 100%;">
+                                </a>
+                                <span class="position-absolute top-0 start-0 m-2 badge bg-primary shadow">
+                                    {{product.brand}}
+                                </span>
+                            </div>
+
+                            <div class="col-md-8">
+                                <div class="card-body d-flex flex-column h-100">
+                                    
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <a href="{{product.get_absolute_url}}" class="text-decoration-none">
+                                            <h5 class="card-title text-white fw-bold mb-0 hover-title">{{product.title}}</h5>
+                                        </a>
+                                        <small class="text-muted">Unit: ${{product.price}}</small>
+                                    </div>
+
+                                    <p class="card-text text-muted small mb-3">
+                                        Categoría: {{product.category.name}}
+                                    </p>
+
+                                    <div class="mt-auto d-flex justify-content-between align-items-end">
+                                        
+                                        <div class="d-flex align-items-center gap-2">
+                                            <div>
+                                                <label for="select{{product.id}}" class="form-label text-muted small mb-0">Cant.</label>
+                                                <select id="select{{product.id}}" class="form-select form-select-sm bg-secondary text-white border-secondary" style="width: 70px;">
+                                                    <option selected value="{{item.qty}}">{{item.qty}}</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+
+                                            <button type="button" 
+                                                    data-index="{{product.id}}" 
+                                                    class="btn btn-primary btn-sm update-button mt-4 shadow-sm"
+                                                    title="Actualizar Cantidad">
+                                                <i class="fa fa-refresh h5 fw-bold text-white mb-0"> Actualizar </i>
+                                            </button>
+
+                                            <button type="button" 
+                                                    data-index="{{product.id}}" 
+                                                    class="btn btn-danger btn-sm delete-button mt-4 shadow-sm"
+                                                    title="Eliminar del Carrito">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="text-end">
+                                            <small class="text-muted d-block">Subtotal:</small>
+                                            <span class="h5 fw-bold text-success mb-0">
+                                                $ {{product.price|mul:item.qty}}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endwith %}
+                    {% endfor %}
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="card bg-black border-primary shadow-lg mb-3 sticky-top" style="top: 20px; z-index: 1;">
+                        <div class="card-header bg-primary text-white fw-bold">
+                            <i class="fa fa-receipt me-2"></i> Resumen
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Subtotal:</span>
+                                <span class="text-white fw-bold">$ <span id="subtotal">{{cart.get_total}}</span></span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Impuestos:</span>
+                                <span class="text-white fw-bold">$ 0.00</span>
+                            </div>
+                            <hr class="border-secondary">
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="h5 text-white fw-bold">Total:</span>
+                                <span class="h4 text-success fw-bold">$ <span id="total">{{cart.get_total}}</span></span>
+                            </div>
+                            
+                            <a href="{% url 'checkout' %}" class="btn btn-success w-100 fw-bold shadow-sm pulse-effect">
+                                Pagar Ahora <i class="fa fa-chevron-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-
-    {% endwith %}
-    {% endfor %}
-
-    <div class="col-12 text-end">
-      <div class="h6 fw-bold">
-        Sub total: $
-        <div id="total" class="d-inline-flex"> {{cart.get_total}} </div>
-      </div>
-    </div>
-  </div>
-
-  <br>
-
-  </br>
 </main>
 
+<style>
+    /* Efecto hover suave en el título del juego */
+    .hover-title {
+        transition: color 0.2s;
+    }
+    .hover-title:hover {
+        color: #0d6efd !important; /* Azul Bootstrap */
+    }
+
+    /* Efecto de pulso para el botón de Pagar */
+    @keyframes pulse-green {
+        0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
+        70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+    }
+    .pulse-effect:hover {
+        animation: pulse-green 2s infinite;
+    }
+</style>
+
 <script>
-  //Delete Button
+    // Delete Button
     $(document).on('click', '.delete-button', function(e){
         e.preventDefault();
-
         $.ajax({
             type: "POST",
             url: '{% url "cart-delete" %}',
             data: {
-                product_id: $(this).data('index') ,    
-                csrfmiddlewaretoken: '{{csrf_token}}', 
+                product_id: $(this).data('index'),
+                csrfmiddlewaretoken: '{{csrf_token}}',
                 action: 'post'
             },
             success: function(json){
-                //console.log(json);
-                location.reload(true); //reload the page, in this way the deleted item isn't in the page
-                document.getElementById("cart-qty").textContent = json.qty
-                document.getElementById("total").textContent = json.total
+                location.reload(true);
             },
-            error: function(xhr, errmsg, err){ 
-            } 
+            error: function(xhr, errmsg, err){
+                console.log(errmsg);
+            }
         });
     });
 
-
-  //Update Button
+    // Update Button
     $(document).on('click', '.update-button', function(e){
         e.preventDefault();
-
-        var theproductid = $(this).data('index')
-
+        var theproductid = $(this).data('index');
         $.ajax({
             type: "POST",
             url: '{% url "cart-update" %}',
             data: {
-                product_id: $(this).data('index') ,  
+                product_id: $(this).data('index'),
                 product_quantity: $('#select' + theproductid + ' option:selected').text(),
-                csrfmiddlewaretoken: '{{csrf_token}}', 
+                csrfmiddlewaretoken: '{{csrf_token}}',
                 action: 'post'
             },
             success: function(json){
-                //console.log(json);
-                location.reload(true); //reload the page, in this way the update item isn't in the page
-                document.getElementById("cart-qty").textContent = json.qty
-                document.getElementById("total").textContent = json.total
+                location.reload(true);
             },
-            error: function(xhr, errmsg, err){ 
-            } 
+            error: function(xhr, errmsg, err){
+                console.log(errmsg);
+            }
         });
     });
 </script>
-
-
 
 {% endblock %}
