@@ -1,0 +1,72 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            
+            <div class="card bg-dark text-white shadow-lg border-primary">
+                
+                <div class="card-header text-center border-primary pt-4 pb-2">
+                    <i class="fa fa-user-circle fa-4x text-primary mb-3"></i>
+                    <h3 class="fw-bold">Shipping Addres</h3>
+                    <small class="text-muted">Manage shipping</small>
+                </div>
+
+                <div class="card-body p-4">
+                    
+                    <form method="POST" autocomplete="off">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            {{ form.full_name|as_crispy_field }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.email|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.address1|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.address2|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.city|as_crispy_field }}
+                        </div>
+                        
+                        <div class="mb-4">
+                            {{ form.state|as_crispy_field }}
+                        </div>
+
+                        <div class="mb-4">
+                            {{ form.zipcode |as_crispy_field }}
+                        </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger text-center mb-3">
+                                <i class="fa fa-exclamation-triangle"></i> 
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+        
+                        <button type="submit" class="btn btn-primary w-100 btn-lg shadow-sm">
+                            <i class="fa fa-sign-in me-2"></i> Update shipping address
+                        </button>
+
+                    </form>
+                </div> 
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

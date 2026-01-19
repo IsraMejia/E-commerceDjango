@@ -39,7 +39,7 @@
         </div>
 
         <div class="col-md-6 mb-4">
-            <div class="card h-100 bg-dark text-white shadow-lg border-primary">
+            <div class="card h-100 bg-dark text-white shadow-lg border-info">
                 <div class="card-body text-center p-5">
                     
                     <i class="fa fa-id-card-o fa-4x text-primary mb-4" aria-hidden="true"></i>
@@ -53,6 +53,26 @@
                        type="button" 
                        href="{% url 'profile-management' %}">
                        <i class="fa fa-cog me-2"></i> Profile Management
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card h-100 bg-dark text-white shadow-lg border-info">
+                <div class="card-body text-center p-5">
+                    
+                    <i class="fa fa-map fa-4x text-info mb-4" aria-hidden="true"></i>
+                    
+                    <h2 class="card-title">Manage shipping</h2>
+                    <p class="card-text text-muted mb-4">
+                        Enter in a shipping address
+                    </p>
+                    
+                    <a class="btn btn-outline-info btn-lg px-4" 
+                       type="button" 
+                       href="{% url 'manage-shipping' %}">
+                       <i class="fa fa-list-alt me-2"></i> Manage shipping
                     </a>
                 </div>
             </div>
